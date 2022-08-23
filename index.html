@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise test</title>
+    <style>
+        .wrapper {
+            max-width: 900px;
+            margin-inline: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+    </div>
+
+
+    <script>
+        window.onload = () => {
+            fetch("https://randomuser.me/api/?results=50&gender=female&nat=us")
+                .then((response) => response.json())
+                .then((obj) => {
+
+                    const wrapper = document.querySelector(".wrapper")
+
+                    for (let i = 0; i < obj.results.length; i++) {
+                        let person = obj.results[i]
+                        const div = document.createElement("div")
+                        const img = document.createElement("img")
+                        img.src = person.picture.medium
+                        const p = document.createElement("p")
+                        p.innerText = `${person.name.title} ${person.name.first} ${person.name.last}`
+
+                        div.append(img, p)
+                        wrapper.appendChild(div)
+                    }
+                })
+                .catch(err => {
+                    const wrapper = document.querySelector(".wrapper")
+                    const h1 = document.createElement("h1")
+                    h1.style = "color: red"
+                    h1.innerText = "Unable to fetch data: " + err.message
+                    wrapper.appendChild(h1)
+                })
+        }
+    </script>
+</body>
+
+</html>
